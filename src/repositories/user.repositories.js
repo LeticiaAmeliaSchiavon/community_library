@@ -2,7 +2,7 @@ import db from '../config/database.js';
 
 db.run(`
     CREATE TABLE IF NOT EXISTS users (
-        id INTERGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT UNIQUE NOT NULL,
         email TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL,
@@ -11,8 +11,8 @@ db.run(`
     `)
 
 function createUserRepository(newUser) {
-    return new Promise((res, rej) => {
-        const { username, email, password, avatar} = newUser
+    return new Promise((resolve, reject) => {
+        const { username, email, password, avatar } = newUser
         db.run(
             `
                 INSERT INTO users (username, email, password, avatar)
@@ -21,9 +21,9 @@ function createUserRepository(newUser) {
             [username, email, password, avatar],
             (err) => {
                 if(err) {
-                    rej(err)
+                    reject(err)
                 } else {
-                    res({message: 'User created'})
+                    resolve({id: this.lastID, ...newUser})
                 }
             }
         )
