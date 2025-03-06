@@ -13,14 +13,13 @@ router.post(
   validate(userSchema),
   userController.createUserController
 );
+
 router.get("/users", userController.findAllUserController);
+
 router.get("users/:id", validateUserId, userController.findUserByIdController);
-router.put(
-  "user/:id",
-  validate(userSchema),
-  validateUserId,
-  userController.updateUserController
-);
+
+router.patch("user/:id", validateUserId, userController.updateUserController);
+
 router.delete(
   "/users/:id",
   validateUserId,
