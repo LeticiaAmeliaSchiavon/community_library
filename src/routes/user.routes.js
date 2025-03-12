@@ -5,6 +5,7 @@ import {
   validateUserId,
 } from "../middlewares/validation.middleware.js";
 import { userSchema } from "../schemas/user.schema.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
@@ -14,8 +15,10 @@ router.post(
   userController.createUserController
 );
 
-router.get("/users", userController.findAllUserController);
+router.post("/users/login", userController.loginUserController);
 
+router.use(authMiddleware);
+router.get("/users", userController.findAllUserController);
 router.get("users/:id", validateUserId, userController.findUserByIdController);
 
 router.patch("user/:id", validateUserId, userController.updateUserController);
